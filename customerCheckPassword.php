@@ -1,8 +1,8 @@
 <?php
-function staffCheckPassword($inID, $inPassword) {
+function customerCheckPassword($inID, $inPassword) {
     include "sql_connect.php";
     
-    $query = "select S1.password from Staff S1 where (S1.staffID = $inID);";
+    $query = "select C1.password from Customer C1 where (C1.customerID = $inID);";
     $result = mysql_query ($query);
     $password = mysql_result ($result, 0);
     
@@ -13,4 +13,3 @@ function staffCheckPassword($inID, $inPassword) {
     }
 }
 ?>
-

@@ -6,7 +6,7 @@ include "staffCheckPassword.php";
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>The Project Website</title>
+        <title>Staff Login</title>
     </head>
     <body>
         <?php
@@ -16,7 +16,7 @@ include "staffCheckPassword.php";
             if ($match) {
                 header("Location: staffPage.php"); 
             } else {
-                echo "Password does not match!";
+                echo "Password does not match! Hit back and try again!";
             }
         }
         else {

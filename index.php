@@ -6,7 +6,9 @@
     </head>
     <body>
         <h1>Project Page</h1>
-        <a href="staffLogin.php">Staff Login</a>
+        <a href="unregisteredShop.php">Shop Unregistered</a><br>
+        <a href="customerAccess.php">Customer Page</a><br>
+        <a href="staffLogin.php">Staff Login</a><br>
     </body>
 </html>
 
