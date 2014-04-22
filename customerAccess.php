@@ -27,7 +27,6 @@ session_start();
             //Register new customer. Must check that ID is not taken already
             $match = customerRegister($_POST['customerID'], $_POST['password']);
             if ($match) {
-                //$GLOBALS['customerIDLoggedIn']=$_POST['customerID'];
 		$_SESSION['customerLoggedIn']=$_POST['customerID'];
                 header("Location: registeredShop.php");
             } else {

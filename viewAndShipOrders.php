@@ -88,10 +88,18 @@ session_start();
 
         //Loop over the rows and create tables for each
         for ($i = 0; $i < $numRow; $i++) {
-	    $customerID = mysql_result($customerOrders, $i, "customerID");
+
+
             $orderID = mysql_result($customerOrders, $i, "orderID");
             $status = mysql_result($customerOrders, $i, "orderStatus");
             $time = mysql_result($customerOrders, $i, "TimeStamp");
+            
+            //Need to find which customer this order is tied to
+            //FIX THIS!!!
+	    //$customerID = mysql_result($customerOrders, $i, "customerID");
+            $customerQ = "select CHO.customerID from CustomerHasOrder CHO where CHO.orderID = $orderID";
+            $result = mysql_query($customerQ);
+            $customerID = mysql_result($result, 0);
 
             //Print the order #, status, and timestamp
             echo "OrderID: $orderID\t CustomerID: $customerID\t Time: $time";

@@ -19,7 +19,7 @@ $customerID = $_SESSION['customerLoggedIn'];
         
         if (isset($_POST['Purchase'])) {
             //Make sure the cart has items in it
-            $itemsQ = "select * from CartHasItem where cartID = $customerID";
+            $itemsQ = "select * from CartHasItem CHI where CHI.cartID = $customerID";
             $itemsInCart = mysql_query($itemsQ);
             $numRows = mysql_num_rows($itemsInCart);
 
@@ -29,15 +29,24 @@ $customerID = $_SESSION['customerLoggedIn'];
             }
 
             //If items are in cart, continue
-            if ($continue) {
+            if ($continue) {                
                 //Create order, which is auto increment
-                $addOrderQ = "insert into CustomerOrder values(NULL, 'Pending', NOW(), $customerID)";
+                $addOrderQ = "insert into CustomerOrder values(NULL, 'Pending', NOW())";
                 if (mysql_query($addOrderQ)) {
                     //Successfully created order
                     //Get the order ID
+                    echo "successfully created the CustomerOrder record!";
                     $orderID = mysql_insert_id();
                 } else {
                     echo "<p>Order creation failed!</p>";
+                }
+                
+                //Create an entry in CustomerHasOrder
+                echo "Beginning add to CHO with values customerID: $customerID and orderID: $orderID";
+                $addCHOq = "insert into CustomerHasOrder values($customerID, $orderID)";
+                $result = mysql_query($addCHOq);
+                if (!$result) {
+                    echo "<p>Failed to add the order to CustomerHasOrder</p>";
                 }
 
                 //First get itemID and quantity from CartHasItem
@@ -101,14 +110,3 @@ $customerID = $_SESSION['customerLoggedIn'];
         </form>
     </body>
 </html>
-
-<?php
-function itemsInCart($inCustomerID) { 
-    include "sql_connect.php";
-    
-
-}
-
-
-?>
-

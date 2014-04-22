@@ -147,38 +147,34 @@ function customerRegister ($inID, $inPassword) {
     }     
     
     //Now add
-    $query = "insert into Customer values('$customerID', '$inPassword');";
-    if (mysql_query ($query)) {
-        //Now add a cart into Cart with the same ID as customer ID (this was guaranteed to be unique)
-        $query2 = "insert into Cart values('$customerID', '$customerID');";
-        if (mysql_query ($query2)) {
-            return true;
-        } else {
-            //Big problem
-            echo "Big problem! Cart was not created but the user was added! This shouldn't be reachable.";
-            return false;
-        }
+    $query = "insert into Customer values($customerID, '$inPassword');";
+    if (mysql_query($query)) {
+        return true;
+    } else {
+        echo "Uhoh, the customer was not created!";
     }
-    
+ 
     return false;
 }
 
 function addToCart($inCustomerID, $inItemID, $inQuant) {
-    //echo "Beginning addToCart(...)!";
+    echo "Beginning addToCart(...)!";
     include "sql_connect.php";
+    
+    if ($inCustomerID == NULL || $inCustomerID == "") {
+        echo "\nSession data has been lost, you need to sign in again!";
+        return false;
+    } 
+    
     if ($inItemID == "" || $inQuant == "") {
         echo "\nAdding to cart failed because the values are blank!";
         return false;
     }
     
-    //Find the cartID associated with this customer
-    $query = "select C.cartID from Cart C where (C.customerID = $inCustomerID);";
-    $result = mysql_query ($query);
-    if ($result == FALSE) {
-        echo "\nFinding the customers cart failed!";
-        return false;
-    }
-    $inCartID = mysql_result ($result, 0);
+    //Set the cartID to the ID of the customer
+    $inCartID = $inCustomerID;
+    
+    echo "cartID = $inCartID";
     
     //Check if there is enough inventory
     $query2 = "select i.numberInStock from Item i where (i.itemID = $inItemID);";
