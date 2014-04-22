@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-include "customerCheckPassword.php";
-include "customerRegister.php";
+include "usefulQueries.php";
+session_start();
 ?>
 
 <html>
@@ -16,7 +16,10 @@ include "customerRegister.php";
             //Login customer
             $match = customerCheckPassword($_POST['customerID'], $_POST['password']);
             if ($match) {
-                header("Location: customerPage.php"); 
+                //Save the customer that is logged in
+                //session_start();
+                $_SESSION['customerLoggedIn'] = $_POST['customerID'];
+                header("Location: registeredShop.php"); 
             } else {
                 echo "Password does not match! Hit back and try again!";
             }
@@ -24,7 +27,9 @@ include "customerRegister.php";
             //Register new customer. Must check that ID is not taken already
             $match = customerRegister($_POST['customerID'], $_POST['password']);
             if ($match) {
-                header("Location: customerPage.php");
+                //$GLOBALS['customerIDLoggedIn']=$_POST['customerID'];
+		$_SESSION['customerLoggedIn']=$_POST['customerID'];
+                header("Location: registeredShop.php");
             } else {
                 echo "Adding the user failed! Hit back and try again!";
             }
@@ -32,8 +37,8 @@ include "customerRegister.php";
         } else {
         ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                CustomerID: <input type="text" name="customerID"><br>
-                Password: <input type="text" name="password"><br>
+                CustomerID (must be an integer): <input type="text" name="customerID"><br>
+                Password (max length of 20): <input type="text" name="password"><br>
                 <input type="submit" name="submitLogin" value="Sign In">
                 <input type="submit" name="submitRegister" value="Register">
             </form>

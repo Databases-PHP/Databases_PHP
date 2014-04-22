@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+
+<?php
+session_start();
+$_SESSION['customerLoggedIn'] = null;
+?>
+
 <html>
     <head>
         <meta charset="UTF-8">

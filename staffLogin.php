@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
-include "staffCheckPassword.php";
+include "usefulQueries.php";
+session_start();
 ?>
 
 <html>
@@ -13,17 +14,23 @@ include "staffCheckPassword.php";
         if (isset($_POST['submit']) && $_POST['staffID'] != "")
         {
             $match = staffCheckPassword($_POST['staffID'], $_POST['password']);
-            if ($match) {
-                header("Location: staffPage.php"); 
-            } else {
-                echo "Password does not match! Hit back and try again!";
+	    //check for isManager
+	    $match2 = staffCheckIfManager($_POST['staffID']);
+            if ($match && $match2) {
+                $_SESSION['staffLoggedIn'] = $_POST['staffID'];
+                header("Location: viewInventory.php"); 
+            } else if ($match){
+                $_SESSION['staffLoggedIn'] = $_POST['staffID'];
+		header("Location: viewInventory.php");
+	    } else {
+                 echo "Password does not match! Hit back and try again!";
             }
         }
         else {
         ?>
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                StaffID: <input type="text" name="staffID"><br>
-                Password: <input type="text" name="password"><br>
+                StaffID (must be an integer): <input type="number" name="staffID"><br>
+                Password (max length of 20): <input type="text" name="password"><br>
                 <input type="submit" name="submit" value="Sign In!">
             </form>        
         <?php
