@@ -158,7 +158,6 @@ function customerRegister ($inID, $inPassword) {
 }
 
 function addToCart($inCustomerID, $inItemID, $inQuant) {
-    echo "Beginning addToCart(...)!";
     include "sql_connect.php";
     
     if ($inCustomerID == NULL || $inCustomerID == "") {
@@ -173,8 +172,6 @@ function addToCart($inCustomerID, $inItemID, $inQuant) {
     
     //Set the cartID to the ID of the customer
     $inCartID = $inCustomerID;
-    
-    echo "cartID = $inCartID";
     
     //Check if there is enough inventory
     $query2 = "select i.numberInStock from Item i where (i.itemID = $inItemID);";

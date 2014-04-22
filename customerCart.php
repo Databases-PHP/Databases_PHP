@@ -35,14 +35,12 @@ $customerID = $_SESSION['customerLoggedIn'];
                 if (mysql_query($addOrderQ)) {
                     //Successfully created order
                     //Get the order ID
-                    echo "successfully created the CustomerOrder record!";
                     $orderID = mysql_insert_id();
                 } else {
                     echo "<p>Order creation failed!</p>";
                 }
                 
                 //Create an entry in CustomerHasOrder
-                echo "Beginning add to CHO with values customerID: $customerID and orderID: $orderID";
                 $addCHOq = "insert into CustomerHasOrder values($customerID, $orderID)";
                 $result = mysql_query($addCHOq);
                 if (!$result) {

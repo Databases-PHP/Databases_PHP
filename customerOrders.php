@@ -16,25 +16,11 @@ $customerID = $_SESSION['customerLoggedIn'];
 	//view list of customer orders
         include "sql_connect.php";
         
-        //FIX THIS!!!!
-        /*
         //Find all order tied to this customer id
-        $query = "select * from CustomerOrder CO where CO.customerID = $customerID";
-        $customerOrders = mysql_query($query);        
-        $numRow = mysql_numrows ($customerOrders);
-        
-         */
-        //Find all order tied to this customer id
-        echo "Beginning...";
-        
-        
-        
         $query = "select * from CustomerHasOrder CHO where CHO.customerID = $customerID";
         $customerOrders = mysql_query($query);        
         $numRow = mysql_numrows ($customerOrders);
-        
-        
-        
+                
         //Loop over the rows and create tables for each
         for ($i = 0; $i < $numRow; $i++) {
             $orderID = mysql_result($customerOrders, $i, "orderID");
@@ -44,9 +30,6 @@ $customerID = $_SESSION['customerLoggedIn'];
             $statusAndTime = mysql_query($query);
             $status = mysql_result($statusAndTime, 0, "orderStatus");
             $time = mysql_result($statusAndTime, 0, "TimeStamp");
-            
-            //$status = mysql_result($customerOrders, $i, "orderStatus");
-            //$time = mysql_result($customerOrders, $i, "TimeStamp");
             
             //Print the order #, status, and timestamp
             echo "<p>OrderID: $orderID   Status: $status     Time: $time</p>";
